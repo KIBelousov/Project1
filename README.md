@@ -1,5 +1,5 @@
 # Project1
-Для запуска проекта советую использовать Google Colab.
+Стоит использовать google colab и соответственно загрузить туда ipynb файл.
 !pip install sklearn
 !pip install numpy
 !pip install matplotlib
