@@ -4,10 +4,27 @@ from sklearn.metrics import accuracy_score
 
 class LogisticRegression:
     ''' 
-    Logistic regression is a fundamental classification method. It belongs to the group of linear classifiers and is somewhat similar to polynomial and linear regression. Logistic regression is fast and relatively simple, and it is convenient for you to interpret the results. Although this is essentially a binary classification method, it can also be applied to multiclass problems.
+    Parameters:
+    X: {array-like, sparse matrix} of shape (n_samples, n_features)
+    y: array-like of shape (n_samples,)
+
+
+    Logistic regression is a fundamental classification method. It belongs to the group of linear classifiers and is somewhat similar to polynomial and linear regression. 
+    Logistic regression is fast and relatively simple, and it is convenient for you to interpret the results. 
+    Although this is essentially a binary classification method, it can also be applied to multiclass problems.
+
+    Examples
+
+    X = np.arange(10).reshape(-1, 1)
+    y = np.array([0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+
+    log_reg = LogisticRegression().fit(X, y, 1000)
+    log_reg.predict(X[:2, :])
+
     '''
     def __init__(self):
         """
+        Inizializing model
         This magic is a function that creates specific attributes of a class. In our case, these are only hyperparameters of the neural network and the values of the error function (according to the standard, it is 0, since in the future this attribute will be reassigned)
         """
         # variables for storing weights
@@ -17,12 +34,25 @@ class LogisticRegression:
 
     def accuracy(self, y, p):
         """
-        This function return accuracy score between our prediction and real classes
-        """
-        return accuracy_score(p, y)
+        Parameters:
+        y: 1d array-like, or label indicator array / sparse matrix
+        p: 1d array-like, or label indicator array / sparse matrix
 
-    def cost_function(self, p: float, y: float) -> float:
+        This function return accuracy score between our prediction and real classes
+
+        Examples
+        y_pred = [0, 2, 1, 3]
+        y_true = [0, 1, 2, 3]
+        accuracy_score(y_true, y_pred)
         """
+        return 1 - accuracy_score(p, y)
+
+    def cost_function(self, p: np.array, y: np.array) -> np.array:
+        """
+        Parameters:
+        p: (array-like / matrix) predicted classes by model
+        y: (array-like / matrix) real classes
+
         Cross-entropy is a Loss Function that can be used to quantify the difference between two Probability Distributions.
         """
     
@@ -36,15 +66,26 @@ class LogisticRegression:
         self.W = np.random.randn(3, 1)
         self.b = np.random.randn()
 
-    def sigm(self, x):
+    def sigm(self, x:int):
         """
+        Parameters:
+        x: int
+
         A sigmoid is a smooth monotonic increasing nonlinear function having the shape of the letter "S", which is often used to "smooth" the values of a certain value. It is used to obtain predictions of the logistic regression class.
+
+        x = 2
+        sigm(2)
         """
         # sigmoid (logistic) function
         return 1 / (1 + np.exp(-x))
 
     def forward_backward_pass(self, x: np.array, y: np.array, eta: float):
         """
+        Parameters:
+        x: array / matrix data
+        y: array / matrix target
+        eta: (float) learning rate
+
         This function implements forward and backward pass and updates the parameters W / b. 
         First, we get linear predictions from our model by multiplying the matrix by the matrix of feature weights and adding b. After that, using sigmoids, we get targets for specific instances. 
         After calculating the error (cross-entropy), our forward pass is over. 
@@ -75,9 +116,23 @@ class LogisticRegression:
 
     def fit(self, X: np.array, Y: np.array, eta=0.01, decay=0.999, iters=1000) ->list:
         """
+        X: array of data
+        Y: array of target
+        eta: float, learning rate
+        decay: float, updationg learning rate
+        iters: num of iter
+
+
         This function is designed to train our logistic regression. First we initialize random weights. 
         Iteratively (depending on the number of epochs) we will perform forward-backward-pass, changing hyperparameters and learning rate. 
         We also add the error we calculated to the buffer for future graph output (as our model learns)
+
+        Examples
+        X = np.arange(10).reshape(-1, 1)
+        y = np.array([0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+
+        log_reg = LogisticRegression()
+        log_reg.fit(X, y, 1000)
         """
         self._init_weights()
 
@@ -103,7 +158,19 @@ class LogisticRegression:
 
     def predict(self, x: np.array) -> np.array:
         """
-         The function is designed to predict the class of a particular instance based on its attributes.
+        x: array of test-data
+
+        The function is designed to predict the class of a particular instance based on its attributes.
+
+        Examples
+        X = np.arange(10).reshape(-1, 1)
+        y = np.array([0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+
+        log_reg = LogisticRegression().fit(X, y, 1000)
+        log_reg.predict(X[:2, :])
+
+
+
         """
         # Note you have to return actual classes (not probs)
         linear_pred = np.dot(x, self.W) + self.b
