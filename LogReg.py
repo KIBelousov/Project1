@@ -7,6 +7,9 @@ class LogisticRegression:
     Parameters:
     X: {array-like, sparse matrix} of shape (n_samples, n_features)
     y: array-like of shape (n_samples,)
+    W: {matrix} -> initialization of the weights of the model, which will be updated in the future during the training process
+    b: {float} -> Initialization of b, the number in which will change during the learning process when taking the derivative of the error for the best result. The purpose of b is to adjust the linear relationship to account for baselines in the response variable.
+    loss: {matrix - float} -> initialization of an error that will change in the future during the learning process. The error was created to indicate the training of the model. How well does the model predict the correct targets and how much is it wrong when giving answers.
 
 
     Logistic regression is a fundamental classification method. It belongs to the group of linear classifiers and is somewhat similar to polynomial and linear regression. 
@@ -27,9 +30,7 @@ class LogisticRegression:
         Inizializing model
         This magic is a function that creates specific attributes of a class. In our case, these are only hyperparameters of the neural network and the values of the error function (according to the standard, it is 0, since in the future this attribute will be reassigned)
 
-        W: initialization of the weights of the model, which will be updated in the future during the training process
-        b: Initialization of b, the number in which will change during the learning process when taking the derivative of the error for the best result. The purpose of b is to adjust the linear relationship to account for baselines in the response variable.
-        loss: initialization of an error that will change in the future during the learning process. The error was created to indicate the training of the model. How well does the model predict the correct targets and how much is it wrong when giving answers.
+        
 
         Example
         log_reg = LogisticRegression()
@@ -136,6 +137,8 @@ class LogisticRegression:
         Iteratively (depending on the number of epochs) we will perform forward-backward-pass, changing hyperparameters and learning rate. 
         We also add the error we calculated to the buffer for future graph output (as our model learns)
 
+        return: this function trains our model by iteratively finding the best hyperparameters when taking the derivative of the error function. We also get a list of our model's errors to plot the model's training schedule.
+
         Examples
         X = np.arange(10).reshape(-1, 1)
         y = np.array([0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
@@ -169,7 +172,8 @@ class LogisticRegression:
         """
         x: array of test-data
 
-        The function is designed to predict the class of a particular instance based on its attributes.
+        The function is designed to predict the class of a particular instance based on its attributes. 
+        return: the function returns the prediction of the class by the sigmoid of our model based on the hyperparameter
 
         Examples
         X = np.arange(10).reshape(-1, 1)
