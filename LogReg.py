@@ -26,13 +26,20 @@ class LogisticRegression:
         """
         Inizializing model
         This magic is a function that creates specific attributes of a class. In our case, these are only hyperparameters of the neural network and the values of the error function (according to the standard, it is 0, since in the future this attribute will be reassigned)
+
+        W: initialization of the weights of the model, which will be updated in the future during the training process
+        b: Initialization of b, the number in which will change during the learning process when taking the derivative of the error for the best result. The purpose of b is to adjust the linear relationship to account for baselines in the response variable.
+        loss: initialization of an error that will change in the future during the learning process. The error was created to indicate the training of the model. How well does the model predict the correct targets and how much is it wrong when giving answers.
+
+        Example
+        log_reg = LogisticRegression()
         """
         # variables for storing weights
         self.W, self.b = None, None
         # variable for storing current loss
         self.loss = None
 
-    def accuracy(self, y, p):
+    def accuracy(self, y: np.array, p:np.array) -> float:
         """
         Parameters:
         y: 1d array-like, or label indicator array / sparse matrix
@@ -61,6 +68,8 @@ class LogisticRegression:
     def _init_weights(self):
         """
         This function is designed for random initialization of weights for our neural network. we will reassign the attributes of our class
+        W: random initialization of the weights of the model, which will be updated in the future during the training process
+        b: random initialization of b, the number in which will change during the learning process when taking the derivative of the error for the best result. The purpose of b is to adjust the linear relationship to account for baselines in the response variable.
         """
         # initialize normal
         self.W = np.random.randn(3, 1)
@@ -69,9 +78,9 @@ class LogisticRegression:
     def sigm(self, x:int):
         """
         Parameters:
-        x: int
+        x: int, the value (number/matrix) by which the sigmoid graph is plotted by function to determine the class by the probability of the relation to it
 
-        A sigmoid is a smooth monotonic increasing nonlinear function having the shape of the letter "S", which is often used to "smooth" the values of a certain value. It is used to obtain predictions of the logistic regression class.
+        A sigmoid is a smooth monotonic increasing nonlinear function having the shape of the letter "S", which is often used to "smooth" the values of a certain value. It is used to obtain predictions of the logistic regression class. 
 
         x = 2
         sigm(2)
